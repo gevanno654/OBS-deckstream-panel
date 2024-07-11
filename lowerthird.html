@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.4.2/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: flex; justify-content: center;">
+                    <h5 class="modal-title" id="loginModalLabel">Login to OBS</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group" style="margin-top: 3%;">
+                            <label for="addressPort">Address dan Port:</label>
+                            <input type="text" class="input-login" id="addressPort" placeholder="192.168.1.7:4444" value="192.168.1.7:4444" required>
+                        </div>
+                        <div class="form-group" style="margin-top: 5%; position: relative;">
+                            <label for="password">Password Websocket:</label>
+                            <input type="password" class="input-login" id="password" placeholder="Password" required>
+                            <label class="container">
+                                <input type="checkbox" checked="checked" id="togglePassword">
+                                <svg class="eye" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path></svg>
+                                <svg class="eye-slash" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z"></path></svg>
+                            </label>
+                        </div>
+                        <div class="form-group form-check" style="margin-top: 3%; display: flex; align-items: center;">
+                            <label class="container-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <div class="checkmark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                        <title>Checkmark</title>
+                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"></path>
+                                    </svg>
+                                </div>
+                            </label>
+                            <label class="form-check-label" for="rememberMe" style="margin-left: 10px;">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="float: right; margin-top: -20px; border-radius: 1rem;">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-header">
+        <div id="header-info">
+            <span id="obs-status">OBS isn't open & you aren't login!</span>
+            <div class="body-header">
+                <span id="datetime"></span>
+                <button id="logoutBtn" class="btn-setting" style="float: right; margin-top: 5px;"><i class="fi fi-rr-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="container-lowerthird">
+        <div class="column">
+            <h1 style="text-align: center; color: white; margin-top: -10px; margin-bottom: -10px;">Petugas</h1>
+            <div class="presbiter-items">
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">PF:</label>
+                        <input type="text" placeholder="Nama Pelayan Firman" name="input" class="input" id="new-text-1">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-1">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">P2:</label>
+                        <input type="text" placeholder="Nama Presbiter 2" name="input" class="input" id="new-text-2">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-2">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">P3:</label>
+                        <input type="text" placeholder="Nama Presbiter 3" name="input" class="input" id="new-text-3">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-3">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">P4:</label>
+                        <input type="text" placeholder="Nama Presbiter 4" name="input" class="input" id="new-text-4">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-4">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">P6:</label>
+                        <input type="text" placeholder="Nama Presbiter 6" name="input" class="input" id="new-text-5">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-5">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">+1:</label>
+                        <input type="text" placeholder="Nama Tambahan 1" name="input" class="input" id="new-text-6">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-6">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">+2:</label>
+                        <input type="text" placeholder="Nama Tambahan 2" name="input" class="input" id="new-text-7">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch" id="toggle-switch-7">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Kesaksian 1:</label>
+                        <input type="text" placeholder="Kesaksian Pujian 1" name="input" class="input" id="kesaksian-text-1">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-kesaksian" id="kesaksian-switch-1">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Kesaksian 2:</label>
+                        <input type="text" placeholder="Kesaksian Pujian 2" name="input" class="input" id="kesaksian-text-2">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-kesaksian" id="kesaksian-switch-2">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Kesaksian 3:</label>
+                        <input type="text" placeholder="Kesaksian Pujian 3" name="input" class="input" id="kesaksian-text-3">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-kesaksian" id="kesaksian-switch-3">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                    
+                                </mask>
+                            </defs>
+                            
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h1 style="text-align: center; color: white; margin-top: -10px; margin-bottom: -10px;">Sesi</h1>
+            <div id="sesi-items">
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 1:</label>
+                        <input type="text" placeholder="Sesi 1" name="input" class="input" id="sesi-text-1">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-1">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 2:</label>
+                        <input type="text" placeholder="Sesi 2" name="input" class="input" id="sesi-text-2">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-2">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 3:</label>
+                        <input type="text" placeholder="Sesi 3" name="input" class="input" id="sesi-text-3">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-3">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 4:</label>
+                        <input type="text" placeholder="Sesi 4" name="input" class="input" id="sesi-text-4">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-4">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 5:</label>
+                        <input type="text" placeholder="Sesi 5" name="input" class="input" id="sesi-text-5">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-5">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 6:</label>
+                        <input type="text" placeholder="Sesi 6" name="input" class="input" id="sesi-text-6">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-6">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 7:</label>
+                        <input type="text" placeholder="Sesi 7" name="input" class="input" id="sesi-text-7">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-7">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 8:</label>
+                        <input type="text" placeholder="Sesi 8" name="input" class="input" id="sesi-text-8">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-8">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 9:</label>
+                        <input type="text" placeholder="Sesi 9" name="input" class="input" id="sesi-text-9">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-9">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 10:</label>
+                        <input type="text" placeholder="Sesi 10" name="input" class="input" id="sesi-text-10">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-10">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 11:</label>
+                        <input type="text" placeholder="Sesi 11" name="input" class="input" id="sesi-text-11">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-11">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 12:</label>
+                        <input type="text" placeholder="Sesi 12" name="input" class="input" id="sesi-text-12">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-12">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 13:</label>
+                        <input type="text" placeholder="Sesi 13" name="input" class="input" id="sesi-text-13">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-13">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 14:</label>
+                        <input type="text" placeholder="Sesi 14" name="input" class="input" id="sesi-text-14">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-14">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 15:</label>
+                        <input type="text" placeholder="Sesi 15" name="input" class="input" id="sesi-text-15">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-15">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 16:</label>
+                        <input type="text" placeholder="Sesi 16" name="input" class="input" id="sesi-text-16">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-16">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 17:</label>
+                        <input type="text" placeholder="Sesi 17" name="input" class="input" id="sesi-text-17">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-17">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 18:</label>
+                        <input type="text" placeholder="Sesi 18" name="input" class="input" id="sesi-text-18">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-18">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 19:</label>
+                        <input type="text" placeholder="Sesi 19" name="input" class="input" id="sesi-text-19">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-19">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 20:</label>
+                        <input type="text" placeholder="Sesi 20" name="input" class="input" id="sesi-text-20">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-20">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 21:</label>
+                        <input type="text" placeholder="Sesi 21" name="input" class="input" id="sesi-text-21">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-21">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 22:</label>
+                        <input type="text" placeholder="Sesi 22" name="input" class="input" id="sesi-text-22">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-22">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 23:</label>
+                        <input type="text" placeholder="Sesi 23" name="input" class="input" id="sesi-text-23">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-23">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 24:</label>
+                        <input type="text" placeholder="Sesi 24" name="input" class="input" id="sesi-text-24">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-24">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Sesi 25:</label>
+                        <input type="text" placeholder="Sesi 25" name="input" class="input" id="sesi-text-25">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-sesi" id="sesi-switch-25">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h1 style="text-align: center; color: white; margin-top: -10px; margin-bottom: -10px;">Judul Lagu</h1>
+            <div class="musik-items">
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 1:</label>
+                        <input type="text" placeholder="Judul Lagu 1" name="input" class="input" id="lagu-text-1">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-1">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 2:</label>
+                        <input type="text" placeholder="Judul Lagu 2" name="input" class="input" id="lagu-text-2">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-2">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 3:</label>
+                        <input type="text" placeholder="Judul Lagu 3" name="input" class="input" id="lagu-text-3">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-3">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 4:</label>
+                        <input type="text" placeholder="Judul Lagu 4" name="input" class="input" id="lagu-text-4">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-4">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 5:</label>
+                        <input type="text" placeholder="Judul Lagu 5" name="input" class="input" id="lagu-text-5">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-5">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 6:</label>
+                        <input type="text" placeholder="Judul Lagu 6" name="input" class="input" id="lagu-text-6">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-6">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 7:</label>
+                        <input type="text" placeholder="Judul Lagu 7" name="input" class="input" id="lagu-text-7">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-7">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 8:</label>
+                        <input type="text" placeholder="Judul Lagu 8" name="input" class="input" id="lagu-text-8">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-8">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 9:</label>
+                        <input type="text" placeholder="Judul Lagu 9" name="input" class="input" id="lagu-text-9">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-9">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 10:</label>
+                        <input type="text" placeholder="Judul Lagu 10" name="input" class="input" id="lagu-text-10">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-10">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 11:</label>
+                        <input type="text" placeholder="Judul Lagu 11" name="input" class="input" id="lagu-text-11">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-11">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 12:</label>
+                        <input type="text" placeholder="Judul Lagu 12" name="input" class="input" id="lagu-text-12">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-12">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 13:</label>
+                        <input type="text" placeholder="Judul Lagu 13" name="input" class="input" id="lagu-text-13">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-13">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 14:</label>
+                        <input type="text" placeholder="Judul Lagu 14" name="input" class="input" id="lagu-text-14">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-14">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item">
+                    <div class="coolinput">
+                        <label for="input" class="text">Lagu 15:</label>
+                        <input type="text" placeholder="Judul Lagu 15" name="input" class="input" id="lagu-text-15">
+                    </div>
+                    <label class="checkbox">
+                        <input type="checkbox" class="toggle-switch-lagu" id="lagu-switch-15">
+                        <svg viewBox="0 0 21 18">
+                            <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 18" id="tick-path">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" fill="none" d="M5.22003 7.26C5.72003 7.76 7.57 9.7 8.67 11.45C12.2 6.05 15.65 3.5 19.19 1.69"></path>
+                            </symbol>
+                            <defs>
+                                <mask id="tick">
+                                </mask>
+                            </defs>
+                            <path d="M18 9C18 10.4464 17.9036 11.8929 17.7589 13.1464C17.5179 15.6054 15.6054 17.5179 13.1625 17.7589C11.8929 17.9036 10.4464 18 9 18C7.55357 18 6.10714 17.9036 4.85357 17.7589C2.39464 17.5179 0.498214 15.6054 0.241071 13.1464C0.0964286 11.8929 0 10.4464 0 9C0 7.55357 0.0964286 6.10714 0.241071 4.8375C0.498214 2.39464 2.39464 0.482143 4.85357 0.241071C6.10714 0.0964286 7.55357 0 9 0C10.4464 0 11.8929 0.0964286 13.1625 0.241071C15.6054 0.482143 17.5179 2.39464 17.7589 4.8375C17.9036 6.10714 18 7.55357 18 9Z" mask="url(#tick)" fill="white"></path>
+                        </svg>
+                        <svg viewBox="0 0 11 11" class="lines">
+                            <path d="M5.88086 5.89441L9.53504 4.26746"></path>
+                            <path d="M5.5274 8.78838L9.45391 9.55161"></path>
+                            <path d="M3.49371 4.22065L5.55387 0.79198"></path>
+                        </svg>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js@5.0.5/dist/obs-ws.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="lowerthird.js"></script>
+</body>
+</html>

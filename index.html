@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS WebSocket Connector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #191b26;
+            color: #e1e0e1;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #2c2e35;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444b6d;
+            border-radius: 4px;
+            background: #25272d;
+            color: #e1e0e1;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-connect {
+            background-color: #256eff;
+            color: white;
+        }
+        .btn-disconnect {
+            background-color: #e2274f;
+            color: white;
+            display: none;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status-success {
+            background-color: #00e000;
+            color: #191b26;
+        }
+        .status-error {
+            background-color: #e2274f;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OBS WebSocket Connector</h1>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="localhost:4455" value="localhost:4455">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password">
+        </div>
+        <button id="button-connect" class="btn-connect">Connect</button>
+        <button id="button-disconnect" class="btn-disconnect">Disconnect</button>
+        <div id="status" class="status"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js@5.0.4/dist/obs-ws.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let obs;
+
+            function connect() {
+                const address = document.querySelector('#address').value;
+                const password = document.querySelector('#password').value;
+
+                obs = new OBSWebSocket();
+                obs.connect(`ws://${address}`, password).then(() => {
+                    document.querySelector('#status').textContent = 'Connected!';
+                    document.querySelector('#status').classList.remove('status-error');
+                    document.querySelector('#status').classList.add('status-success');
+                    document.querySelector('#button-connect').style.display = 'none';
+                    document.querySelector('#button-disconnect').style.display = 'inline-block';
+                    window.location.href = 'dashboard.html';
+                }).catch(err => {
+                    document.querySelector('#status').textContent = 'Error connecting to OBS: ' + err.message;
+                    document.querySelector('#status').classList.remove('status-success');
+                    document.querySelector('#status').classList.add('status-error');
+                });
+            }
+
+            function disconnect() {
+                if (obs) {
+                    obs.disconnect().then(() => {
+                        document.querySelector('#status').textContent = 'Disconnected';
+                        document.querySelector('#status').classList.remove('status-error', 'status-success');
+                        document.querySelector('#button-connect').style.display = 'inline-block';
+                        document.querySelector('#button-disconnect').style.display = 'none';
+                    });
+                }
+            }
+
+            document.querySelector('#button-connect').addEventListener('click', connect);
+            document.querySelector('#button-disconnect').addEventListener('click', disconnect);
+        });
+    </script>
+</body>
+</html>

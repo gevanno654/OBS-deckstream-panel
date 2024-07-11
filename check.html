@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS WebSocket Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .status-success {
+            color: green;
+        }
+        .status-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>OBS WebSocket Tester</h1>
+    <form id="connection-form">
+        <label for="address">Address:</label>
+        <input type="text" id="address" value="192.168.1.7:4444">
+        <label for="password">Password:</label>
+        <input type="password" id="password" value="your_password">
+        <button type="button" id="button-connect">Connect</button>
+        <button type="button" id="button-disconnect" style="display: none;">Disconnect</button>
+    </form>
+    <div id="status"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js/dist/obs-websocket.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let obs;
+
+            function connect() {
+                const address = document.querySelector('#address').value || 'localhost:4455';
+                const password = document.querySelector('#password').value;
+
+                obs = new OBSWebSocket();
+                obs.connect(`ws://${address}`, password).then(() => {
+                    console.log('Connected to OBS');
+                    document.querySelector('#status').innerHTML = 'Connected!';
+                    document.querySelector('#status').classList.remove('status-error');
+                    document.querySelector('#status').classList.add('status-success');
+                    document.querySelector('#button-connect').style.display = 'none';
+                    document.querySelector('#button-disconnect').style.display = 'inline';
+                }).catch(err => {
+                    let errMsg = '<strong>Error connecting to OBS:</strong> ';
+                    if (err == 'Error') {
+                        errMsg += 'Is OBS running? Host + Port correct? Wrong password?';
+                    } else {
+                        err = err.toString().replace('Error:', '');
+                        errMsg += err;
+                    }
+
+                    console.error('› ' + errMsg);
+                    document.querySelector('#status').innerHTML = errMsg;
+                    document.querySelector('#status').classList.remove('status-success');
+                    document.querySelector('#status').classList.add('status-error');
+                });
+            }
+
+            function disconnect() {
+                obs.disconnect().then(() => {
+                    console.log('Disconnected from OBS');
+                    document.querySelector('#status').innerHTML = 'Disconnected';
+                    document.querySelector('#status').classList.remove('status-error', 'status-success');
+                    document.querySelector('#button-connect').style.display = 'inline';
+                    document.querySelector('#button-disconnect').style.display = 'none';
+                });
+            }
+
+            document.querySelector('#button-connect').addEventListener('click', connect);
+            document.querySelector('#button-disconnect').addEventListener('click', disconnect);
+        });
+    </script>
+</body>
+</html>

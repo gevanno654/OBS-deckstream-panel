@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OBS WebSocket Tester</title>
+	<meta name="description" content="Test and debug your WebSocket connection to OBS Studio with this simple tool. Just connect to OBS and start testing with your own WebSocket data.">
+
+	<link rel="icon" type="image/png" sizes="32x32"href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEeElEQVR42q2WWWhVVxSGr7baSGrTIQ0hTUWhsVTQSsEO0Iq10EqkoYRQCvWltJT2IZp7kxuNjWkNgtYBHBARiRmNJlfjPEacHtRERVBxRB9EE5WoLz44L799XSdsj+dsrsYDP+fevdde/7/WXnufFUn1ia+SQaCgrEn+L22Ujli9tHpz/7RKYbReNsUaZDbviZUJeS3yqp6yRsmFcBbowrkk0SAyeaVMNPNTV8tXU2pFIE+ipE5karNM6TOxRh2D8B5QAgAg/83M/9sm2fy/b0h529hl5lk3koxVvQzxWzjZE/MRa4T7PDuycjyAXCC+lRRQJ5masePxJnk/JfLyZslhwUU7ahukO1PtZil5IBA3SrNwBAjoolbynOTTWyQNw8th5BAuNnbs8TC1CRfQIMUqoEazYnCzap28GyqA/ToQGlW93Cal6USeRnRnXAKiAF9LVECJXaCsPRFIzh795UhpHPIstctxRe5Fy+nZpHUwVsdtETOeIWeAogvd8yK/WJyMM9XvEoDPTs3AMP+ceVeskexehwxU+FJ6E+UJnJSGbRdbko5dDhgP4qxv9wk5r77TwaNnsvBU4MLeI1eqEyCB458iL/mwdiRCVnhEVoASkIW7FPObZvJ7BjrBl7YzxsdRSMWOgj2CzTWwlWgqqY0R3hy+fmS8hfH+6mtbkAgE/xwpqZVB1rWbjeM5LLwa1VSRoWU4T/PVTFnQKWB8I+vzLH/9rOysCzgtS+3br9oUFo6DlGZo1JMYa4s6ik/vgA9swXoacpl77Fuz1xAPRekhx7k+r1F/ZI05BbC3/suG9clifOBbc87sz9kwcsV+TeF31phTxLQ1Mj5AQAHw23cZAbfcDmWXFlJBqgJ4d1eulSzfFgxnrsdnf9U47nQ7lIsqYAKQVEHhvqcnopYGZZL5PblGvvYJPWMc7wCiBdINToHD4ADopKAa1dGoFxCwWUV/qESCiOTnmJu1NdbYe1u2R6joz/jzA3ucGXE82PTHZjTOfuW9nPclR9YK9NSUefc/xb4lKWClDFYbYX7Bc0RMZkHwKe9vwOcYDXfcfF+A2dhdschPW4XXbYg8QupijGYhofb5nuFccJSBGyHNRaHaFYEFiJoQkKG/EdNBuzZWe8VfPHIrC7u1IM2JusP8G17UTa6qhrBNF+ZbTm8gZhn41i9mxloZaE5X0PHGVwa3bz/wiZ32wUBcKF8lGfop7gjIUA9kQzx/RjB2YX1CcViR/eG8XFbLfC2ivIBWbTs2GZr6avbY1agcdlV6u+Nyefzfesk1dsU1Mt2a+9P6nkyLOhpVPX4HQwWwL69jeC6kMxIILszcIG8nM1FH9ddLvtXSzVOhLvTAQRCOh4vnHQxPhnTFJoW/+/qCMWBnCuRdrHe25XZRDgAJcBYcAi0QxIn444D+cJESuHBQm9q+P1T8QLaikqhnWh+a6hDih6Ciz6S6x6MhP6adjHc/bCxvlgFawEVKKOA62ZrD2NC+8toFOgTHVaAZ7Pb6CLvH5/8IxgtBeqp+nwDPhqWHzCbpPgAAAABJRU5ErkJggg==
+	" />
+
+	<script src="https://cdn.jsdelivr.net/npm/obs-websocket-js@5.0.4/dist/obs-ws.min.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+
+	<section id="intro">
+		<svg viewBox="0 0 396 396" xmlns="http://www.w3.org/2000/svg" id="logo"><rect fill="#fff" height="396" rx="198" width="396" id="logo-bg"/><g id="logo-inner"><path d="m266.236 207.506c.154-.646.124-1.322-.086-1.952s-.592-1.189-1.103-1.613c-3.582-3.101-6.458-6.932-8.433-11.237-1.974-4.305-3.002-8.983-3.014-13.718.01-2.912.41-5.81 1.189-8.616.234-.723.231-1.503-.01-2.225-.24-.721-.706-1.347-1.328-1.785-20.586-14.878-45.085-23.399-70.467-24.51h-1.19c-.873-.075-1.746.149-2.475.635-.73.486-1.272 1.205-1.539 2.039-2.17 7.797-6.83 14.671-13.271 19.578s-14.309 7.577-22.408 7.605c-.113-.065-.242-.099-.372-.099-.131 0-.259.034-.372.099-3.408 18.929-3.859 38.271-1.338 57.337.132.795.5 1.532 1.057 2.115s1.277.985 2.065 1.153c32.989 5.422 64.905 16.052 94.552 31.491.808.382 1.723.473 2.591.256.867-.217 1.633-.727 2.166-1.445 11.548-16.589 19.638-35.33 23.786-55.108z"/><path d="m221.938 287.125c.414-.428.723-.946.903-1.513.181-.567.228-1.167.138-1.755-.088-.606-.323-1.18-.687-1.672-.363-.493-.842-.888-1.395-1.151-21.922-10.704-45.094-18.638-68.98-23.618-.647-.153-1.323-.123-1.954.087-.63.209-1.189.591-1.614 1.102-.433.472-.731 1.053-.862 1.68s-.09 1.278.118 1.885c2.278 6.761 5.01 13.361 8.177 19.756 6.46 12.324 14.562 23.716 24.084 33.867.592.643 1.384 1.067 2.249 1.202.864.135 1.748-.027 2.508-.459 12.928-9.167 25.383-18.984 37.315-29.411z"/><path d="m113.113 229.192c.579.012 1.152-.116 1.67-.375s.965-.64 1.303-1.11c.71-.824 1.081-1.885 1.041-2.971-2.087-19.84-1.084-39.883 2.973-59.417.091-.158.14-.337.14-.519 0-.183-.049-.362-.14-.52-5.037-3.915-9.022-9.019-11.596-14.854-.299-.785-.866-1.438-1.6-1.845-.735-.408-1.589-.544-2.414-.384-31.3504 5.63-60.411 20.174-83.6984 41.889-.6333.634-1.0048 1.482-1.0406 2.377v6.09c.0283 11.88 1.2737 23.726 3.7166 35.353.0827.491.2719.959.5544 1.369.2825.411.6514.754 1.0809 1.008.4377.221.9216.337 1.4124.337.4907 0 .9746-.116 1.4123-.337 27.9609-6.067 56.6448-8.118 85.1854-6.091z"/><path d="m156.671 330.351c.559-.193 1.057-.526 1.448-.969.391-.442.661-.979.782-1.556.141-.565.148-1.155.019-1.723-.13-.567-.39-1.097-.762-1.545-8.72-10.066-16.207-21.137-22.3-32.976-5.862-11.637-10.4-23.894-13.528-36.542-.183-.752-.597-1.428-1.183-1.934s-1.317-.817-2.088-.888c-28.3474-2.542-56.9164-.79-84.7394 5.199-.5308.133-1.0287.373-1.4634.705-.4346.332-.7966.749-1.064 1.226-.2238.463-.3401.971-.3401 1.486 0 .514.1163 1.022.3401 1.485 12.61 31.841 34.1325 59.379 61.9936 79.321.7313.189 1.4986.189 2.23 0 20.7372-.043 41.2932-3.869 60.6552-11.289z"/><path d="m300.877 212.855c-.434-.583-1.042-1.013-1.737-1.226-.696-.214-1.441-.201-2.128.038-1.998.553-4.036.95-6.095 1.188-.772.071-1.502.381-2.088.887-.587.506-1 1.183-1.183 1.935-8.622 39.512-31.665 79.47-85.482 116.457-.872.71-1.453 1.714-1.636 2.822.006 1.149.429 2.258 1.19 3.12 12.592 11.276 25.847 21.792 39.693 31.49.479.26 1.016.397 1.561.397.546 0 1.082-.137 1.561-.397 38.32-10.418 72.065-33.314 95.889-65.061.309-.396.534-.85.661-1.335.128-.485.156-.991.083-1.487-5.82-32.499-19.668-63.031-40.289-88.828z"/><path d="m104.193 124.621c.681-.104 1.32-.396 1.845-.841.525-.446.916-1.029 1.128-1.684 2.337-6.626 6.515-12.45 12.044-16.791 5.528-4.34 12.18-7.0177 19.176-7.7187.264-.0144.518-.1067.73-.2654.212-.1586.372-.3764.46-.6258 11.401-25.4897 26.422-49.2033 44.599-70.4087.423-.5831.651-1.285.651-2.0053s-.228-1.4221-.651-2.0053c-.188-.6168-.534-1.174-1.003-1.6168s-1.046-.7559-1.673-.9084c-35.601 3.3367-69.378 17.2861-96.9471 40.0385-27.5695 22.7524-47.6599 53.2579-57.6647 87.5589-.2344.723-.231 1.503.0098 2.225.2407.721.7061 1.347 1.3281 1.785.6066.436 1.3346.67 2.0814.67.7467 0 1.4747-.234 2.0813-.67 21.8893-13.652 46.3127-22.746 71.8052-26.737z"/><path d="m179.564 347.284c-.606-.436-1.334-.67-2.081-.67s-1.475.234-2.081.67c-11.28 5.205-23.028 9.333-35.085 12.329-.772.225-1.451.694-1.933 1.336-.483.643-.743 1.425-.743 2.229 0 .803.26 1.585.743 2.228.482.643 1.161 1.112 1.933 1.337 18.522 6.316 37.962 9.528 57.533 9.506h4.46c.755-.041 1.481-.302 2.088-.75.608-.449 1.071-1.066 1.331-1.775.235-.724.231-1.503-.009-2.225-.241-.721-.707-1.347-1.329-1.786-7.73-6.981-16.204-14.26-24.827-22.429z"/><path d="m298.2 145.119c.025.699.248 1.377.643 1.955.395.579.945 1.034 1.587 1.313 5.948 2.615 11.011 6.897 14.573 12.328s5.471 11.778 5.496 18.272c.032 5.149-1.139 10.235-3.419 14.854-.435.606-.67 1.333-.67 2.079s.235 1.474.67 2.08c16.354 20.437 29.03 43.557 37.464 68.329.223.732.676 1.372 1.292 1.827s1.361.699 2.127.698c.739.071 1.479-.111 2.1-.516.622-.404 1.087-1.008 1.319-1.712 9.554-21.634 14.611-44.981 14.867-68.626.071-30.716-7.802-60.929-22.858-87.709-15.055-26.7807-36.781-49.2193-63.071-65.1403-.621-.3969-1.343-.6077-2.081-.6077s-1.46.2108-2.081.6077c-.593.429-1.039 1.0296-1.278 1.7204s-.26 1.4385-.06 2.1416c8.081 31.4273 12.569 63.6683 13.38 96.1063z"/><path d="m162.319 99.6664c-.344.7896-.414 1.6726-.198 2.5066.215.835.704 1.573 1.388 2.098 5.101 3.554 9.198 8.364 11.893 13.963.388.799 1.06 1.424 1.885 1.754.825.329 1.743.34 2.575.029h3.122c30.541 1.202 60.014 11.553 84.591 29.708.592.402 1.291.617 2.007.617.715 0 1.415-.215 2.007-.617l2.081-.891c.665-.29 1.23-.768 1.626-1.375.397-.607.606-1.317.604-2.042-1.249-38.765-7.495-77.2075-18.583-114.3768-.204-.646-.596-1.2169-1.125-1.6401-.53-.4232-1.173-.6796-1.849-.7366-10.674-3.6364-21.678-6.2234-32.855-7.7241-.578-.0715-1.164-.0006-1.708.2065-.545.2071-1.03.5442-1.414.9818-22.343 22.9969-41.222 49.1161-56.047 77.5387z"/></g></svg>
+		<h1>OBS WebSocket Tester</h1>
+	</section>
+
+	<section class="block">
+		<div class="block-header">Connection Information</div>
+		<div class="block-body">
+			<div class="flex">
+				<div class="form-wrapper">
+					<label for="address" class="form-label">Address</label>
+					<input type="text" id="address" placeholder="localhost:4455" class="form-control" value="localhost:4455">
+				</div>
+
+				<div class="form-wrapper">
+					<label for="password" class="form-label">Password</label>
+					<input type="password" id="password" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-wrapper form-check hidden">
+				<label for="subscribe-events" class="form-check-label">Subscribe to Events</label>
+				<input type="checkbox" id="subscribe-events" class="form-check-input">
+			</div>
+
+			<div id="event-subscriptions-wrapper" class="form-wrapper form-check hidden">
+				<select id="event-subscriptions" class="form-control form-select"></select>
+			</div>
+
+			<button id="button-connect" class="btn btn-primary">Connect</button>
+			<button id="button-disconnect" class="btn btn-danger hidden">Disconnect</button>
+		</div>
+		<div class="block-footer">
+			<div id="status" class="status">Not connected</div>
+		</div>
+	</section>
+
+	<section id="request-form-wrapper" class="block hidden">
+		<div class="block-header">Request Information</div>
+		<div class="block-body">
+			<form id="request-form" action="#">
+				<div class="form-wrapper">
+					<label for="request-type" class="form-label">Select a request type</label>
+					<div id="request-description" class="form-text"></div>
+					<select id="request-type" class="form-select" required aria-describedby="request-description"></select>
+				</div>
+
+				<div id="request-fields" class="form-wrapper"></div>
+				
+				<input type="submit" id="button-sendrequest" class="btn btn-primary" value="Send Request" disabled />
+			</form>
+		</div>
+		<div class="block-footer">
+			<pre id="request-sent">Nothing sent yet ...</pre>
+		</div>
+	</section>
+
+	<section id="response-wrapper" class="block hidden">
+		<div class="block-header">OBS Response</div>
+		<div class="block-body">
+			<pre id="response">Nothing yet ...</pre>
+		</div>
+	</section>
+
+	<footer>
+		Built by <a href="https://propz.de" target="_blank" rel="noopener">propz</a> - Check out <a href="https://obsproject.com/" target="_blank" rel="noopener">OBS Studio</a> + <a href="https://github.com/obs-websocket-community-projects/obs-websocket-js" target="_blank" rel="noopener">obs-websocket-js</a>
+	</footer>
+
+</div>
+
+<style>
+* {
+	margin:0;
+	padding:0;
+	box-sizing:border-box
+}
+
+:root {
+	--bg-body: #191b26;
+	--bg-block: #2c2e35;
+	--bg-block-header: #383a41;
+	--bg-input: #25272d;
+
+	--color-body: #e1e0e1;
+	--color-headings: #fffeff;
+	--color-primary: #256eff;
+	--color-secondary: #72a2ff;
+	--color-tertiary: #444b6d;
+	--color-link: var(--color-secondary);
+	--color-intro: #626c9d;
+
+	--color-red: #e2274f;
+	--color-red-dark: #bd193c;
+	--color-green: #00e000;
+	--color-green-dark: #00a800;
+
+	--border-color: var(--color-tertiary);
+	--border-radius: .5rem;
+
+	--padding-block: 2rem;
+	--padding-field: 1.15rem;
+}
+
+html {
+	font-size: 62.5%;
+	height: 100%;
+	background: var(--bg-body);
+}
+
+body {
+	min-height: 100%;
+	padding:5vh 5%;
+	background: var(--bg-body);
+	color: var(--color-body);
+	font-size: 2rem;
+	line-height: 1.5;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+	/* General */
+	#logo-inner {
+		fill: var(--color-primary);
+	}
+
+	h1,h2,h3,h4,h5,h6 {
+		line-height: 1.2;
+		margin-bottom: var(--padding-block);
+		color: var(--color-headings);
+	}
+
+	p {
+		margin: 0 0 1rem;
+	}
+
+	button,
+	input[type="submit"] {
+		cursor: pointer;
+	}
+
+	a {
+		color: var( --color-link );
+	}
+		a:hover {
+			text-decoration: none;
+		}
+
+	.flex {
+		display: flex;
+		gap: var(--padding-block);
+	}
+
+	pre {
+		tab-size:4rem;
+		font-family: monospace;
+		color: var(--color-secondary);
+		white-space: pre-wrap;
+	}
+
+	footer {
+		font-size: 80%;
+		color: var(--color-intro);
+	}
+
+	#wrapper {
+		max-width:1280px;
+		margin:0 auto
+	}
+
+	#intro {
+		margin-bottom: calc( 2 * var(--padding-block) );
+		color: var(--color-intro);
+	}
+
+		#intro svg {
+			width: 10rem;
+			margin-bottom: var(--padding-block);
+			fill: #fff;
+		}
+
+/* Block */
+.block {
+	background: var(--bg-block);
+	background-clip: border-box;
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius);
+	margin-bottom: calc( var(--padding-block) * 2 );
+}
+
+	.block-header {
+		background: var(--bg-block-header);
+		border-radius: var(--border-radius) var(--border-radius) 0 0;
+		padding: calc( var(--padding-block) / 2 ) var(--padding-block);
+		border-bottom: 1px solid var(--border-color);
+		font-size: 120%;
+		font-weight: bold;
+	}
+
+	.block-body {
+		padding: calc( var(--padding-block) * 2 ) var(--padding-block);
+	}
+
+/* Buttons */
+.btn {
+	display: inline-block;
+	padding: calc( var(--padding-block) / 2 ) var(--padding-block);
+	text-align: center;
+	border: 0;
+	border-radius: 4rem;
+	background: var(--color-primary);
+}
+
+	.btn:hover {
+		background: var(--color-secondary);
+	}
+
+	.btn:disabled,
+	.btn.disabled {
+		pointer-events: none;
+		opacity: .25;
+	}
+
+	.btn-danger{background:var(--color-red)}
+	.btn-danger:hover{background:var(--color-red-dark)}
+
+/* Request fields + form */
+#request-fields{
+	padding: var(--padding-block);
+	border-radius: var(--border-radius);
+	border: 1px dashed rgba(114, 162, 255, 0.75);
+}
+
+	#request-fields:empty{
+		padding:0;
+		border:0
+	}
+
+	#request-fields h3 {
+		margin-bottom: calc( var(--padding-block) * 2 );
+	}
+
+		#request-fields > .form-wrapper:last-child {
+			margin-bottom: calc( var(--padding-block) / 2 )
+		}
+
+		#request-fields .form-wrapper {
+			margin-bottom: calc( var(--padding-block) * 2 );
+		}
+
+		#request-fields .form-control {
+			border-radius:0;
+		}
+
+	#request-sent {
+		background: var(--bg-input);
+		padding: var(--padding-block);
+	}
+
+	.form-wrapper {
+		margin-bottom: 2rem;
+		width: 100%;
+		position: relative;
+	}
+
+	input, button, select, optgroup, textarea {
+		margin: 0;
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+		transition: all .3s;
+		color: inherit;
+	}
+
+	.form-label,
+	.form-text {
+		font-size: 80%;
+		background: var(--color-tertiary);
+		padding: .3rem var(--padding-field);
+		float: left;
+	}
+
+		.form-text {
+			background: rgba(255, 255, 255, 0.1);
+			background: var(--bg-body);
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		.form-text:empty{padding:0}
+
+	.form-control,
+	.form-select {
+		position: relative;
+		z-index: 1;
+		display: block;
+		width: 100%;
+		padding: var(--padding-field);
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		word-wrap: break-word;
+		background: var(--bg-input);
+		border: 1px solid var(--border-color);
+	}
+
+		.form-control:focus,
+		.form-select:focus {
+			background: var(--bg-body);
+			outline: 0;
+			border-color: var(--color-tertiary);
+		}
+
+	.form-check {
+		min-height: 1.5rem;
+		padding-left: var(--padding-field);
+		margin-bottom: var(--padding-block);
+	}
+
+		.form-check-input {
+			margin-left: calc( var(--padding-field) * -1 );
+			float: left;
+			border-radius: 0.25em;
+			flex-shrink: 0;
+			width: 1em;
+			height: 1em;
+			margin-top: 0.25em;
+			margin-right: 1rem;
+			vertical-align: top;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			border: .3rem solid var(--color-secondary);
+		}
+
+			.form-check-input:checked {
+				background-color: var(--color-secondary);
+				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+			}
+
+/* Status */
+.status {
+	--status-bg: var(--color-tertiary);
+	--status-color: var(--color-secondary);
+	padding: var(--padding-block);
+	color: var(--status-color);
+	background-color: var(--status-bg);
+	border-left: .5rem solid var(--status-color);
+	border-radius: var(--border-radius);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+	.status-success {
+		--status-color: var(--color-green);
+		--status-bg: rgb(10 255 57 / 15%);
+	}
+
+	.status-error {
+		--status-color: var(--color-red);
+		--status-bg: rgb( 226 39 79 / 20% );
+}
+
+.hidden{display:none}
+</style>
+
+<script>
+document.addEventListener( 'DOMContentLoaded', function()
+{
+	const version = '1.0';
+
+	console.log(`\n%cOBS WebSocket Tester`, 'color:#72a2ff;background:#191b26;font-size:1rem;padding:.75rem; padding: 1rem auto; border:2px solid #256eff; border-radius: 4px;font-weight: bold; font-family: monospace');
+
+	console.log( `%cWelcome to the OBS WebSocket Connection Tester\n\n› Author: Wellington Estevo\n› Version: ${version}\n› Web: https://propz.de\n› Twitch: https://propz.de/twitch/\n\nLike it? I'd appreciate the support :)\n`, 'font-size:1rem;line-height:1.5;' );
+
+	var obs;
+	var obsData;
+	const obsDataUrl = 'https://raw.githubusercontent.com/obsproject/obs-websocket/master/docs/generated/protocol.json';
+
+	// Set title with version number
+	document.title += ` - v${version}`;
+
+	/**
+	 * OBS Connection handler
+	 */
+	function connect()
+	{
+		event.preventDefault();
+
+		const address = document.querySelector( '#address' ).value || 'localhost:4455';
+		const password = document.querySelector( '#password' ).value;
+		const eventSubscriptions = document.querySelector( '#subscribe-events' ).checked ? document.querySelector( '#event-subscriptions' ).value : undefined;
+
+		const connectOptions = {};
+		if ( eventSubscriptions )
+		{
+			connectOptions.eventSubscriptions = eventSubscriptions;
+			console.log(eventSubscriptions);
+		}
+
+		obs = new OBSWebSocket();
+		obs.connect( `ws://${address}`, password, connectOptions ).then(() =>
+		{
+			console.log( '› Connected to OBS' );
+			show( '#request-form-wrapper, #response-wrapper, #button-disconnect' );
+			hide( '#button-connect' );
+			document.querySelector( '#status' ).innerHTML = 'Connected!';
+			document.querySelector( '#status' ).classList.remove( 'status-error' );
+			document.querySelector( '#status' ).classList.add( 'status-success' );
+		})
+		.catch( err =>
+		{
+			let errMsg = '<strong>Error connecting to OBS:</strong> ';
+			if ( err == 'Error' )
+			{
+				errMsg += 'Is OBS running? Host + Port correct? Wrong password?';
+			}
+			else
+			{
+				err = err.toString().replace( 'Error:', '' );
+				errMsg += err;
+			}
+
+			console.error( '› ' + errMsg);
+			document.querySelector( '#status' ).innerHTML = errMsg;
+			document.querySelector( '#status' ).classList.remove( 'status-success' );
+			document.querySelector( '#status' ).classList.add( 'status-error' );
+		});
+	}
+
+	/**
+	 * OBS Disconnect handler
+	 */
+	function disconnect()
+	{
+		obs.disconnect().then(() =>
+		{
+			console.log( '› Disconnected from OBS' );
+			document.querySelector( '#status' ).innerHTML = 'Disconnected';
+			document.querySelector( '#status' ).classList.remove( 'status-error', 'status-success' );
+			hide( '#request-form-wrapper,#response-wrapper,#button-disconnect' );
+			show( '#button-connect' );
+		});
+	}
+
+	/**
+	 * Get current OBS data from github and setup elements.
+	 */
+	async function setupObsData()
+	{
+		const response = await fetch( obsDataUrl );
+		obsData = await response.json();
+		setupObsRequests( obsData );
+		setupObsEvents( obsData );
+	}
+
+	/**
+	 * Setup request type data
+	 */
+	function setupObsRequests(data)
+	{
+		const requests = data.requests;
+		const requestTypeSelect = document.querySelector( '#request-type' );
+		const requestFields = document.querySelector( '#request-fields' );
+
+		requestTypeSelect.innerHTML = '<option value="">-</option>';
+
+		// Categorize first ...
+		const requestCategories = {};
+		requests.forEach(request =>
+		{
+			if ( !requestCategories[ request.category ] ) requestCategories[ request.category ] = [];
+			requestCategories[ request.category ].push( request );
+		});
+
+		// .. then fill dropdown ...
+		Object.entries(requestCategories).forEach( ( [ category, categoryRequests ] ) =>
+		{
+			const optgroup = document.createElement( 'optgroup' );
+			optgroup.label = category;
+			categoryRequests.forEach(request =>
+			{
+				const option = document.createElement( 'option' );
+				option.value = request.requestType;
+				option.text = request.requestType;
+				optgroup.appendChild( option );
+			});
+			requestTypeSelect.appendChild( optgroup );
+		});
+
+		// ... then handle changes.
+		requestTypeSelect.addEventListener( 'change', function()
+		{
+			const selectedRequest = this.value;
+			const requestDescription = document.querySelector( '#request-description' );
+
+			// Reset all fields
+			requestFields.innerHTML = '';
+			requestDescription.innerHTML = '';
+	
+			// Return if nothing was chosen
+			if ( !selectedRequest )
+			{
+				document.querySelector( '#button-sendrequest' ).disabled = true;
+				return;
+			}
+			document.querySelector( '#button-sendrequest' ).disabled = false;
+
+			const selectedRequestData = requests.find( request => request.requestType === selectedRequest );
+
+			// Set field description
+			requestDescription.textContent = selectedRequestData.description;
+
+			// Don't go any further if we don't have any requestFields
+			if ( !selectedRequestData.requestFields.length > 0 ) return;
+		
+			requestFields.innerHTML = '<h3>Request fields</h3>';
+
+			// ... then loop and setup all param fields
+			selectedRequestData.requestFields.forEach( field =>
+			{
+				// Field values
+				const valueRequired = !field.valueOptional;
+				const valueRequiredText = valueRequired ? 'required, ' : '';
+				const valueType = field.valueType.toLowerCase();
+				const valueName = field.valueName;
+
+				// Dynamic input options
+				let valueTypeText = valueType;
+				let inputElement = 'input';
+				let inputType = 'text';
+				let inputClass = 'form-control';
+				let inputWrapperClass = 'form-wrapper';
+				let inputLabelClass = 'form-label';
+				let inputHelpId = `${valueName}Helper`;
+
+				switch (valueType)
+				{
+					case 'boolean':
+						inputType = 'checkbox';
+						inputClass = 'form-check-input';
+						inputLabelClass = 'form-check-label';
+						inputWrapperClass = 'form-check';
+						break;
+					case 'number':
+						inputType = 'number';
+						break;
+					case 'object':
+						inputElement = 'textarea';
+						valueTypeText = 'JSON object';
+						break;
+				}
+
+				// Create right description
+				let valueDescription = `${valueName} (${valueRequiredText}${valueTypeText})`;
+				if ( field.valueRestrictions )
+					valueDescription = `${valueName} (${valueRequiredText}${valueTypeText}: ${field.valueRestrictions})`;
+
+				// Set everything together
+				const inputField = document.createElement( inputElement );
+				inputField.name = valueName;
+				inputField.id = valueName;
+				inputField.placeholder = valueDescription;
+				inputField.required = valueRequired;
+				inputField.setAttribute( 'aria-describedby', inputHelpId );
+				inputField.classList.add( inputClass );
+
+				// Can't set type on textarea
+				if ( inputElement !== 'textarea' )
+					inputField.type = inputType;
+				else
+					inputField.rows = 3;
+
+				const inputLabel = document.createElement( 'label' );
+				inputLabel.textContent = valueDescription;
+				inputLabel.classList.add( inputLabelClass );
+				inputLabel.htmlFor = valueName;
+
+				const inputDescription = document.createElement( 'div' );
+				inputDescription.id = inputHelpId;
+				inputDescription.textContent = field.valueDescription;
+				inputDescription.classList.add( 'form-text' );
+
+				const inputWrapper = document.createElement( 'div' );
+				inputWrapper.classList.add( inputWrapperClass );
+
+				// Different position for checkbox
+				if ( inputWrapperClass === 'form-check' )
+					inputWrapper.append( inputField, inputLabel, inputDescription );
+				else
+					inputWrapper.append( inputLabel, inputDescription, inputField );
+
+				requestFields.appendChild( inputWrapper );
+			});
+		});
+	}
+
+	/**
+	 * Setup event subscription data
+	 */
+	function setupObsEvents(data)
+	{
+		const events = data.events;
+		const eventSubscriptionsSelect = document.querySelector( '#event-subscriptions' );
+
+		const eventCategories = {};
+		events.forEach( event =>
+		{
+			if ( !eventCategories[ event.eventSubscription ] )
+				eventCategories[ event.eventSubscription ] = [];
+
+			eventCategories[ event.eventSubscription ].push(event);
+		});
+
+		eventSubscriptionsSelect.innerHTML = '<option value="EventSubscription.All">All</option>';
+
+		Object.entries(eventCategories).forEach( ( [ category, categoryEvents ] ) =>
+		{
+			const optgroup = document.createElement( 'optgroup' );
+			optgroup.label = category;
+			categoryEvents.forEach( event =>
+			{
+				const option = document.createElement( 'option' );
+				option.value = event.eventSubscription;
+				option.text = event.eventType;
+				optgroup.appendChild( option );
+			});
+			eventSubscriptionsSelect.appendChild( optgroup );
+		});
+	}
+
+	document.querySelector( '#button-connect' ).addEventListener( 'click', connect );
+	document.querySelector( '#button-disconnect' ).addEventListener( 'click', disconnect );
+
+	/**
+	 * Send data to OBS
+	 */
+	document.querySelector( '#request-form' ).addEventListener( 'submit', function(event)
+	{
+		event.preventDefault();
+
+		const requestData = {
+			requestType: document.querySelector( '#request-type' ).value,
+			requestData: {}
+		};
+		//const requestData = {};
+
+		document.querySelectorAll( '#request-fields > div' ).forEach( fieldContainer =>
+		{
+			const input = fieldContainer.querySelector( 'input, textarea' );
+			if ( input )
+			{
+				let val = input.value;
+				if ( input.placeholder.toLowerCase().includes( 'object' ) ) val = JSON.parse( val );
+				if ( input.placeholder.toLowerCase().includes( 'boolean' ) ) val = input.checked;
+				if ( input.placeholder.toLowerCase().includes( 'number' ) ) val = parseInt( val );
+
+				console.log( input, val );
+
+				requestData.requestData[input.name] = val;
+				//requestData[input.name] = val;
+			}
+		});
+		console.log( '› Sending request:', requestData );
+		document.querySelector( '#request-sent' ).textContent = "Sent data: \n" + JSON.stringify( requestData, null, "\t" );
+
+		obs.callBatch( [ requestData ] ).then( response =>
+		{
+		//obs.call( document.querySelector( '#request-type' ).value, requestData ).then( response => {
+			console.log( '› Response from OBS:', response );
+			document.querySelector( '#response' ).textContent = JSON.stringify( response[0], null, "\t" );
+		})
+		.catch(err =>
+		{
+			console.error( '› Error sending request to OBS:', err);
+			document.querySelector( '#response' ).textContent = err;
+		});
+	});
+
+	/**
+	 * Check if Events are needed
+	 */
+	document.querySelector( '#subscribe-events' ).addEventListener( 'change', function()
+	{
+		if ( this.checked )
+			show( '#event-subscriptions-wrapper' );
+		else
+			hide( '#event-subscriptions-wrapper' );
+	});
+
+	/**
+	 * Hide all given elements (by ID)
+	 * 
+	 * @param {string} elementsToHide - Element ID's separated by comma
+	 * @returns {void}
+	 */
+	function hide( elementsToHide = '' )
+	{
+		if ( !elementsToHide ) return;
+		let elements = elementsToHide.replace( ' ', '' ).split( ',' );
+		elements.forEach( element =>
+		{
+			document.querySelector( element ).style.display = 'none';
+		});
+	}
+
+	/**
+	 * Show all given elements (by ID)
+	 * 
+	 * @param {string} elementsToShow - Element ID's separated by comma
+	 * @returns {void}
+	 */
+	function show( elementsToShow )
+	{
+		if ( !elementsToShow ) return;
+		let elements = elementsToShow.replace( ' ', '' ).split( ',' );
+		elements.forEach( element =>
+		{
+			document.querySelector( element ).style.display = 'block';
+		});
+	}
+
+	setupObsData();
+});
+</script>
+
+</body>
+</html>
